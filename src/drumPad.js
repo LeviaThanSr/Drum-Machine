@@ -1,34 +1,39 @@
 import React, { Component } from "react";
-
 class DrumPad extends Component {
   constructor(props) {
     super(props);
-    this.audio = React.createRef();
+    this.audioTrigger = React.createRef();
     this.handlePlay = this.handlePlay.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
+  // Creating handlePlay function
   handlePlay() {
-    this.audio.current.play();
+    this.audioTrigger.current.play();
   }
-  handleKeyPress(event) {
-    const currentSound = event.key.toUpperCase();
-    const audio = document.getElementById(currentSound);
+  // Creating handleKeyPress function
+  handleKeyPress(e) {
+    const audio = document.getElementById(e.key.toUpperCase());
     audio.play();
   }
-
   render() {
+    // Destructuring props
+    const { innerText, audio } = this.props;
+    // Trigger audio on keyPress
     document.addEventListener("keydown", this.handleKeyPress);
     return (
+      // Adding style and functionality to each drum pad
       <div
         className="drum-pad rounded border shadow-sm btn btn-primary"
-        id={this.props.innerText + "-pad"}
+        id={innerText + "-pad"}
         onClick={this.handlePlay}
       >
-        {this.props.innerText}
+        {/* Drum pad inner text */}
+        {innerText}
+        {/* Drum pad audio */}
         <audio
-          ref={this.audio}
-          src={this.props.audio}
-          id={this.props.innerText}
+          ref={this.audioTrigger}
+          src={audio}
+          id={innerText}
           className="clip"
         />
       </div>
